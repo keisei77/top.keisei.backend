@@ -1,5 +1,6 @@
 const Koa = require('koa')
 const app = new Koa()
+const fs = require('fs')
 const views = require('koa-views')
 const json = require('koa-json')
 const onerror = require('koa-onerror')
