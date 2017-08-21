@@ -37,7 +37,6 @@ app.use(async (ctx, next) => {
 // routes
 app.use(routers.routes(), routers.allowedMethods())
 
-console.log(routers)
 if (process.env.NODE_ENV === env.DEV) {
   server = http.createServer(app.callback()).listen(3000)
 } else if (process.env.NODE_ENV === env.PROD) {

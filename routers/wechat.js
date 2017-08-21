@@ -1,11 +1,6 @@
 const router = require('koa-router')()
+const wechatController = require('./../controllers/wechat')
 
-router.get('/', function (ctx, next) {
-  ctx.body = 'this is a users response!'
-})
-
-router.get('/bar', function (ctx, next) {
-  ctx.body = 'this is a users/bar response'
-})
+router.get('/', wechatController.checkToken)
 
 module.exports = router
