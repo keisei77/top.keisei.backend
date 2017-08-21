@@ -8,8 +8,7 @@ const logger = require('koa-logger')
 const http = require('http')
 const https = require('https')
 const config = require('./config')
-const index = require('./routes/index')
-const users = require('./routes/users')
+const routers  = require('./routers')
 const constants = require('./utils')
 const env = constants.constants.env
 // error handler
@@ -36,10 +35,9 @@ app.use(async (ctx, next) => {
 })
 
 // routes
-app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
+app.use(routers.routes(), routers.allowedMethods())
 
-console.log(env)
+console.log(routers)
 if (process.env.NODE_ENV === env.DEV) {
   server = http.createServer(app.callback()).listen(3000)
 } else if (process.env.NODE_ENV === env.PROD) {
