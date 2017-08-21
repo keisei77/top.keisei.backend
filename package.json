@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node bin/www",
-    "dev": "./node_modules/.bin/nodemon bin/www",
-    "prd": "pm2 start bin/www",
+    "dev": "NODE_ENV=dev nodemon app.js",
+    "prod": "NODE_ENV=prod node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

@@ -5,10 +5,13 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
-
+const http = require('http')
+const https = require('https')
+const config = require('./config')
 const index = require('./routes/index')
 const users = require('./routes/users')
-
+const constants = require('./utils')
+const env = constants.constants.env
 // error handler
 onerror(app)
 
@@ -36,4 +39,9 @@ app.use(async (ctx, next) => {
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 
-app.listen(3000)
+console.log(env)
+if (process.env.NODE_ENV === env.DEV) {
+  server = http.createServer(app.callback()).listen(3000)
+} else if (process.env.NODE_ENV === env.PROD) {
+  server = https.createServer(app.callback()).listen(443)
+}
