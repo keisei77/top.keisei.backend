@@ -1,3 +1,6 @@
+const crypto = require('crypto');
+const hash = crypto.createHash('sha1');
+
 module.exports = {
   checkToken (ctx) {
     let requestBody = ctx.request.query
@@ -10,5 +13,17 @@ module.exports = {
     let nonce = requestBody.nonce
     // 随机字符串
     let echostr = requestBody.echostr
+
+    let beforeEncrypt = ''
+    for (let key of Object.keys(requestBody).sort()) {
+      beforeEncrypt += `${key}=${requestBody[key]}`
+    }
+    hash.update(beforeEncrypt)
+    let afterEncrypt = hash.digest('hex')
+    if (signature === afterEncrypt) {
+      ctx.body = 'Success'
+    } else {
+      ctx.throw(500)
+    }
   }
 }
