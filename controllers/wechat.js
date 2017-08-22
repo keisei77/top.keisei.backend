@@ -14,11 +14,10 @@ module.exports = {
     // 随机字符串
     let echostr = requestBody.echostr
 
-    let beforeEncrypt = ''
-    for (let key of Object.keys(requestBody).sort()) {
-      beforeEncrypt += `${key}=${requestBody[key]}`
-    }
-    hash.update(beforeEncrypt)
+    let token = 'KeiSei77';
+    let beforeEncrypt = [token, timestamp, nonce]
+
+    hash.update(beforeEncrypt.sort().join(''))
     let afterEncrypt = hash.digest('hex')
     if (signature === afterEncrypt) {
       ctx.body = echostr
