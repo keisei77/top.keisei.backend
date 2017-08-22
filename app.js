@@ -37,12 +37,5 @@ app.use(async (ctx, next) => {
 
 // routes
 app.use(routers.routes(), routers.allowedMethods())
-if (process.env.NODE_ENV === env.DEV) {
-  server = http.createServer(app.callback()).listen(config[process.env.NODE_ENV].port)
-} else if (process.env.NODE_ENV === env.PROD) {
-  const options = {
-    key: fs.readFileSync('/home/ssl/www.keisei.top.key', 'utf8'),
-    cert: fs.readFileSync('/home/ssl/www.keisei.top.pem', 'utf8')
-};
-  server = https.createServer(options, app.callback()).listen(config[process.env.NODE_ENV].port)
-}
+server = http.createServer(app.callback()).listen(config[process.env.NODE_ENV].port)
+
