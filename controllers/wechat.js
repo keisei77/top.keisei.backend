@@ -21,7 +21,7 @@ module.exports = {
     hash.update(beforeEncrypt)
     let afterEncrypt = hash.digest('hex')
     if (signature === afterEncrypt) {
-      ctx.body = 'Success'
+      ctx.body = echostr
     } else {
       ctx.throw(500)
     }
