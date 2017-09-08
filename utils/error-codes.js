@@ -1,0 +1,4 @@
+module.exports = {
+  USER_NOT_FOUND: 10000,
+  PASSWORD_INVALID: 10001
+}
