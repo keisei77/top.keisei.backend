@@ -10,12 +10,18 @@ const http = require('http')
 const https = require('https')
 const config = require('./config')
 const routers  = require('./routers')
-const constants = require('./utils')
-const env = constants.constants.env
+const utils = require('./utils')
+const env = utils.constants.env
+const session = require('koa-session')
+
 // error handler
 onerror(app)
 
+utils.dbUtils(config.dev.mongodb)
+
+app.keys = ['SoHKDA3kIFEE91JD9crfnu4c3dvnvgMXH61IqVXkKXmKdSaM5VaRO']
 // middlewares
+app.use(session(app))
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
 }))
@@ -37,5 +43,4 @@ app.use(async (ctx, next) => {
 
 // routes
 app.use(routers.routes(), routers.allowedMethods())
-server = http.createServer(app.callback()).listen(config[process.env.NODE_ENV].port)
-
+http.createServer(app.callback()).listen(config[process.env.NODE_ENV].port)
