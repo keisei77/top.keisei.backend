@@ -9,7 +9,7 @@ const logger = require('koa-logger')
 const http = require('http')
 const https = require('https')
 const config = require('./config')
-const routers  = require('./routers')
+const routers = require('./routers')
 const utils = require('./utils')
 const env = utils.constants.env
 const session = require('koa-session')
@@ -17,13 +17,13 @@ const session = require('koa-session')
 // error handler
 onerror(app)
 
-utils.dbUtils(config.dev.mongodb)
+utils.dbUtils(config[env].mongodb)
 
 app.keys = ['SoHKDA3kIFEE91JD9crfnu4c3dvnvgMXH61IqVXkKXmKdSaM5VaRO']
-// middlewares
+  // middlewares
 app.use(session(app))
 app.use(bodyparser({
-  enableTypes:['json', 'form', 'text']
+  enableTypes: ['json', 'form', 'text']
 }))
 app.use(json())
 app.use(logger())
@@ -34,7 +34,7 @@ app.use(views(__dirname + '/views', {
 }))
 
 // logger
-app.use(async (ctx, next) => {
+app.use(async(ctx, next) => {
   const start = new Date()
   await next()
   const ms = new Date() - start
@@ -43,4 +43,9 @@ app.use(async (ctx, next) => {
 
 // routes
 app.use(routers.routes(), routers.allowedMethods())
-http.createServer(app.callback()).listen(config[process.env.NODE_ENV].port)
+if (process && process.env && process.env.NODE_ENV) {
+  http.createServer(app.callback()).listen(config[process.env.NODE_ENV].port)
+} else {
+  // Only for dev
+  http.createServer(app.callback()).listen(3000)
+}
