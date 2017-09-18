@@ -17,7 +17,7 @@ const session = require('koa-session')
 // error handler
 onerror(app)
 
-utils.dbUtils(config[env].mongodb)
+utils.dbUtils(config[process.env.NODE_ENV].mongodb)
 
 app.keys = ['SoHKDA3kIFEE91JD9crfnu4c3dvnvgMXH61IqVXkKXmKdSaM5VaRO']
   // middlewares
